@@ -1,0 +1,31 @@
+.LibrosList{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+.LibrosList-Item{
+    width: 20%;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card:hover{
+    box-shadow: 3px 3px, -1em 0 0.4em;
+}
+
+@media screen and (max-width: 1000px){
+    .LibrosList-Item{
+        width: 40%
+    }
+
+}
+@media screen and (max-width: 600px){
+    .LibrosList-Item{
+        width: 90%
+    }
+
+}

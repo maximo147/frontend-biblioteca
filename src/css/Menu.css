@@ -1,0 +1,11 @@
+.menu{
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    z-index: 1;
+    padding: 0 20px;
+}
+.boton{
+    margin-left: 20px;
+}

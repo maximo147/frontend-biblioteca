@@ -1,0 +1,84 @@
+.detalle-libro{
+    position: absolute;
+    top:80px;
+    width: 100%;
+
+}
+
+hr{
+    background-color: rgb(10, 13, 46);
+}
+
+.contenedor{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.header-detalle{
+    width: 100%;
+    display: flex;
+}
+
+.atras{
+    width: 50%;
+   
+}
+
+.favorito{
+    width: 50%;
+
+    justify-content: flex-end;
+}
+
+.icono{
+    font-size: 3em;
+}
+
+.icono:active{
+    color: red;
+}
+
+.body-detalle{
+    display: flex;
+    width: 100%;
+}
+
+.img-detalle{
+    width: 30%;
+}
+
+.descripcion-detalle{
+    width: 70%;
+    padding: 30px;
+}
+
+.footer-detalle{
+    padding: 20px 0;
+}
+
+.buttons{
+    left: 40px;
+    width: 30%;
+    align-items: stretch;
+}
+.buttons .button{
+    width: 100%;
+}
+
+@media screen and (max-width: 600px){
+    .body-detalle{
+        display: block;
+        width: 100%;
+    }
+    .img-detalle{
+        text-align: center;
+        width: 100%;
+    }
+    
+    .descripcion-detalle{
+        width: 100%;
+    }
+    .buttons{
+        width: 100%;
+    }
+}

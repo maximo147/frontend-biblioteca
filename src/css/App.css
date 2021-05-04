@@ -1,0 +1,12 @@
+.App{
+    position: absolute;
+    text-align: center;
+    margin-top: 30px;
+}
+.SearchForm-wrapper{
+    margin-top: 90px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    z-index: 0;
+}
