@@ -1,6 +1,7 @@
 import { React } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from '../pages/Login';
+import Registrar from '../components/Registrar';
 import MenuPrincipal from '../pages/MenuPrincipal'
 import IFrame from '../components/IFrame'
 
@@ -17,6 +18,9 @@ function Routes(){
                 <Route path='/login'>
                     <Login />
                 </Route> 
+                <Route path='/registrar'>
+                    <Registrar />
+                </Route>
                 <Route exact path='/MenuPrincipal'>
                     <MenuPrincipal />
                 </Route>

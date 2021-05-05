@@ -8,12 +8,15 @@ const cookies = new Cookies();
 
 export default class Menu extends Component {
 
-    _handleRegistrarse = (e) => {
+    _handleLoguearse = (e) => {
         if(!cookies.get('nombreUsuario')){
             window.location.href = '/login'
         }else{
             alert('Holaaaaa')
         }
+    }
+    _handleRegistrarse = (e) => {
+        window.location.href = '/registrar'
     }
 
     handleChange = (e) => {
@@ -55,11 +58,10 @@ export default class Menu extends Component {
                                     <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                                 </li>
                             </ul>
-                            <form className="d-flex">
-                                <button className="btn btn-outline-success boton" type="submit" onClick={this._handleRegistrarse}>SingIn</button>
-                                <button className="button is-link" onClick={this._handleRegistrarse}>Leer</button>
-                                <button className="btn btn-outline-success boton" type="submit">SingUp</button>
-                            </form>
+
+                                <button className="btn btn-outline-success boton" type="submit" onClick={this._handleLoguearse}>SingIn</button>
+                                <button className="btn btn-outline-success boton" type="submit" onClick={this._handleRegistrarse}>SingUp</button>
+
                         </div>
                     </div>
                 </nav>
