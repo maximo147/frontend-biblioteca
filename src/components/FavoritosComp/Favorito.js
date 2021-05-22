@@ -5,12 +5,21 @@ const cookies = new Cookies();
 
 
 class BotonSinAquirir extends Component {
+    _handleCompra = () => {
+        cookies.set('libroActual', this.props.id, { path: '/' } )
+        window.location.href= `/venta-libro?id=${this.props.id}`
+    }
+    _handleAlquiler = () => {
+        cookies.set('libroActual', this.props.id, { path: '/' } )
+        window.location.href= `/alquiler-libro?id=${this.props.id}`
+    }
+
     render() {
         return (
             <div>
                 <div class="buttons">
-                    <button class="button is-info">Alquilar</button>
-                    <button class="button is-info">comprar</button>
+                    <button class="button is-info" onClick={this._handleAlquiler}>Alquilar</button>
+                    <button class="button is-info" onClick={this._handleCompra}>comprar</button>
                 </div>
             </div>
         )
@@ -47,6 +56,7 @@ export default class Favorito extends Component {
         const { _id  } = this.props
         misLibros.map(libro => {
             if(libro.libro._id === _id){
+
                 this.setState({flag: true})
             }
         })
@@ -70,7 +80,7 @@ export default class Favorito extends Component {
                             <p className="card-text">{descripcion}</p>
                         </div>
                         {
-                            (this.state.flag) ? <BotonAdquirido /> : <BotonSinAquirir />
+                            (this.state.flag) ? <BotonAdquirido /> : <BotonSinAquirir id={_id} />
                         }
                     </div>
                 </div>

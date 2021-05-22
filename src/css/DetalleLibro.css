@@ -1,5 +1,6 @@
 .container-detalle-libro{
     width: 100%;
+    display: flex;
 }
 
 .detalle-libro{
@@ -69,6 +70,7 @@ hr{
 .buttons .button{
     width: 40%;
 }
+
 
 @media screen and (max-width: 600px){
     .body-detalle{

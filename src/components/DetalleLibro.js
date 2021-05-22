@@ -7,8 +7,6 @@ import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
 class BotonSinAquirir extends Component {
-    
-
     _handleCompra = () => {
         cookies.set('libroActual', this.props.id, { path: '/' } )
         window.location.href= `/venta-libro?id=${this.props.id}`
@@ -74,9 +72,6 @@ export default class DetalleLibro extends Component {
                     } else {
                         this.setState({ heart: false })
                     }
-
-                    console.log('***************************+')
-                    console.log(v)
                 }
             })
         }
@@ -124,7 +119,6 @@ export default class DetalleLibro extends Component {
                         fetch('http://localhost:8080/api/favoritos', requestOptions)
                             .then(response => response.json())
                             .then(data => {
-                                alert(data.message)
                                 console.dir(data.message[0])
                             });
                         this._actualizarFavoritosOnCookies()
@@ -191,12 +185,12 @@ export default class DetalleLibro extends Component {
                 }
             })            
         }
-
+        cookies.set('libroActual', this.props.id, { path: '/' } )
 
     }
 
     render() {
-        const { _id, img, titulo, anioPublicaion, idioma, descripcion, autor } = this.state.libros
+        const { _id, img, titulo, numeroPaginas, anioPublicaion, idioma, descripcion, autor } = this.state.libros
         // const { nombre } = this.state.libros.autor
         const colorHeart = this.state.heart ? 'conColor' : 'sinColor'
         return (
@@ -237,7 +231,7 @@ export default class DetalleLibro extends Component {
                                         {`Año:                ${anioPublicaion}`}
                                     </p>
                                     <p>
-                                        {`Paginas:                ${anioPublicaion}`}
+                                        {`Paginas:                ${numeroPaginas}`}
                                     </p>
                                     <p>
                                         {`Idioma:                ${idioma}`}
@@ -266,7 +260,7 @@ export default class DetalleLibro extends Component {
                         </div>
                         <hr />
                     </div>
-                </div>
+                </div>                
             </div>
         )
     }

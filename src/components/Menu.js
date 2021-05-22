@@ -33,6 +33,8 @@ class BotonesOut extends React.Component {
         cookies.remove('rol', { path: '/' })
         cookies.remove('favoritos', { path: '/' })
         cookies.remove('_id', { path: '/' })
+        cookies.remove('mislibros', { path: '/' })
+        cookies.remove('libroActual', { path: '/' })
         window.location.reload(true);
     }
     render() {

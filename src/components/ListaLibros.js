@@ -17,7 +17,7 @@ export default class ListaLibros extends Component {
                         return (
                             <div key={libros._id}  className="LibrosList-Item">
                                     <Libro
-                                    key={libros.isbn}
+                                        key={libros.isbn}
                                         _id={libros._id}
                                         titulo={libros.titulo}
                                         img={libros.img}

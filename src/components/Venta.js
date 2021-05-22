@@ -62,6 +62,15 @@ class PaymentForms extends React.Component {
         })
     }
 
+    _actualizarMisLibrosOnCookies = () => {
+        const id = cookies.get('_id')
+        fetch(`http://localhost:8080/api/mis-libros/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                cookies.set('mislibros', data.mislibros, { path: '/' })
+            });
+    }
+
     processPayment = () => {
         try {
             axios.post('http://localhost:8080/api/tarjeta', {
@@ -70,14 +79,12 @@ class PaymentForms extends React.Component {
                 codigo: this.state.cvc,
                 fechaVencimiento: this.state.expiry,
             }).then((response) => {
-                if(response.status === 200){
-                    alert('Hola')
-                }else{
-                    alert('Datos mal añadidos')
+                if (response.status === 200) {
+                    return response.data
                 }
             }).then((response) => {
                 if (response.message === "OK") {
-                    const header = { 
+                    const header = {
                         fechaVenta: new Date(),
                         tipoPago: 'TARJETA_DEBITO',
                         total: this.state.libro.precioVenta,
@@ -85,12 +92,35 @@ class PaymentForms extends React.Component {
                     };
                     axios.post('http://localhost:8080/api/ventas', header)
                         .then(response => {
-                            return response.data
+                            if (response.status === 200) {
+                                return response.data
+                            }
                         })
                         .then(response => {
-                            this.setState({sold: true})
+                            const post = {
+                                venta: response.venta._id,
+                                libro: cookies.get('libroActual')
+                            }
+                            axios.post('http://localhost:8080/api/detalle-ventas', post)
+                            .then(response => response.data)
+                            .then(response => alert(response.message))
+                            const post2 = {
+                                usuario: cookies.get('_id'),
+                                libro: cookies.get('libroActual'),
+                                estadoLibro: 'COMPRADO'
+                            }
+                            axios.post('http://localhost:8080/api/mis-libros', post2)
+                            .then(response => response.data)
+                            .then(response => alert(response.message))
+
+                            
+                            alert('Añadido a libreria')
+                            this.setState({ sold: true })
+                            this._actualizarMisLibrosOnCookies()
                         });
-                    
+
+                } else {
+                    alert('Datos incorrectos')
                 }
             })
         } catch (error) {

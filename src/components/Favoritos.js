@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Menu from '../components/Menu'
 
 import ListaFavoritos from './FavoritosComp/ListaFavoritos'
-import DetalleLibro from './DetalleLibro'
 import '../css/Favoritos.css'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
@@ -12,6 +11,10 @@ export default class Favoritos extends Component {
     state = {
         librosFavoritos: [],
         estado: false
+    }
+
+    _handleRefresh = () => {
+        this.setState({ estado: !this.state.estado })
     }
 
     componentDidMount() {
@@ -30,11 +33,11 @@ export default class Favoritos extends Component {
                         .then(response => response.json())
                         .then(data => {
                             librosF.push(data[0])
-
                         });
                 }
             })
-            this.setState({ librosFavoritos: librosF, estado: true })
+            this.setState({ librosFavoritos: librosF })
+            
         } else {
             window.location.href = "/login"
         }
@@ -43,20 +46,20 @@ export default class Favoritos extends Component {
     _handleBack = () => {
         window.history.back()
     }
-    _handleRefresh = () => {
-        this.setState({estado: true})
-    }
+
 
     render() {
+
         return (
             <div>
                 <Menu />
-                
+
                 <div className="container-favoritos">
                     <div className="favoritos">
                         <div className="raya"></div>
-                        <button className="button is-link" onClick={this._handleBack}>Link</button>
+                        <button className="button is-link" onClick={this._handleBack}>Atras</button>
                         <div className="raya"></div>
+                        
                         <input type="submit" value="Mis Favoritos v" onClick={this._handleRefresh} />
                         <ListaFavoritos
                             favoritos={this.state.librosFavoritos}

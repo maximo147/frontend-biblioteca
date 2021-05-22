@@ -15,7 +15,7 @@ export default class ListaFavoritos extends Component {
                 {   
                     favoritos.map(libros => {
                         return (
-                            <div key={libros._id}  >
+                            <div key={libros._id}>
                                     <Favorito
                                     key={libros.isbn}
                                         _id={libros._id}
