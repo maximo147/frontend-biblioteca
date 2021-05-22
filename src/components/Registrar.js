@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import Cookies from 'universal-cookie'
+import axios from 'axios'
+const cookies = new Cookies();
 
 export default class Registrar extends Component {
     state = {
@@ -18,52 +21,27 @@ export default class Registrar extends Component {
     _handleRegistrarse = (e) => {
         e.preventDefault()
 
-        // axios.post('http://localhost:8080/api/auth/login', {
-        //     correo: this.state.correo,
-        //     password: this.state.password,
-        //     rol: this.state.rol
-        // }).then((response) => {
-        //     return response.data
-        // }).then((response) => {
-        //     if(response.nombreUsuario){
-        //         console.log(response)
-        //         cookies.set('correo', response.correo, { path: '/' })
-        //         cookies.set('nombreUsuario', response.nombreUsuario, { path: '/' })
-        //         cookies.set('rol', response.rol, { path: '/' })
-        //         window.location.href='./MenuPrincipal'
-        //     }else{
-        //         alert('El usuario o contraseña son incorrectos')
-        //     }
-        // })
-        // .catch((err) => console.log(err))
-
-
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+            axios.post('http://localhost:8080/api/usuarios', {
                 nombreUsuario: this.state.nombreUsuario,
                 nombres: this.state.nombres,
                 correo: this.state.correo,
                 password: this.state.password,
                 telefono: this.state.telefono
-            })
-        };
-        fetch('http://localhost:8080/api/usuarios', requestOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                const { message, errors } = data
-                if (errors) {
-                    errors.map(error => { 
-                        alert(error.msg)
-                        console.log(error)
-                    })
+            }).then((response) => {
+                return response.data
+            }).then((response) => {
+                if(response.nombreUsuario){
+                    console.log(response)
+                    cookies.set('correo', response.correo, { path: '/' })
+                    cookies.set('nombreUsuario', response.nombreUsuario, { path: '/' })
+                    cookies.set('rol', response.rol, { path: '/' })
+                    window.history.back()
                 }
-                alert(message)
-            });
+            })
+            .catch((err) => console.log(err))
+            
     }
+
     render() {
         return (
             <div>

@@ -20,8 +20,8 @@ export default class Libro extends Component {
                     <div className="card-content">
                         <div className="media">
                             <div className="media-content">
-                                <p className="title is-6">{titulo}</p>
-                                <p className="subtitle is-6">{autor}</p>
+                                <h4 className="title is-6">{titulo}</h4>
+                                <h6 className="subtitle is-6">{autor}</h6>
                             </div>
                         </div>
                     </div>

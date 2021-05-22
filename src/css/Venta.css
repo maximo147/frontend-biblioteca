@@ -1,0 +1,39 @@
+.container-pago{
+    width: 100%;
+}
+
+.titulo-pago{
+    width: 100%;
+    margin-top: 90px;
+    text-align: center;
+}
+.container-venta{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+
+}
+
+.container-libro{
+    margin-top: 110px;
+    width: 20%;
+}
+
+
+.container-targetCard{
+    margin-top: 110px;
+    width: 50%;
+}
+@media screen and (max-width: 900px){
+
+
+    .container-libro{
+        width: 100%;
+    }
+    
+    
+    .container-targetCard{
+        width: 100%;
+    }
+}

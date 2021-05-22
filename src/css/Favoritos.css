@@ -1,0 +1,23 @@
+.container-favoritos{
+    margin-top: 90px;
+}
+
+
+.container-favoritos .favoritos{
+    margin: 0 auto;
+    width: 80%;
+}
+
+.container-favoritos .favoritos .raya {
+    border: 1.5px solid rgb(0, 98, 175);
+    padding-bottom: 0em;
+    margin: 0.5em 0;
+}
+
+.favoritos-container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+

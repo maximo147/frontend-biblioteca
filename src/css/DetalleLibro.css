@@ -1,3 +1,7 @@
+.container-detalle-libro{
+    width: 100%;
+}
+
 .detalle-libro{
     position: absolute;
     top:80px;
@@ -32,9 +36,10 @@ hr{
 
 .icono{
     font-size: 3em;
+    cursor: pointer;
 }
 
-.icono:active{
+.conColor{
     color: red;
 }
 
@@ -58,11 +63,11 @@ hr{
 
 .buttons{
     left: 40px;
-    width: 30%;
+    width: 100%;
     align-items: stretch;
 }
 .buttons .button{
-    width: 100%;
+    width: 40%;
 }
 
 @media screen and (max-width: 600px){
@@ -79,6 +84,7 @@ hr{
         width: 100%;
     }
     .buttons{
+        display: flex;
         width: 100%;
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'bulma/css/bulma.css';
 
-import { SearchForm } from '../components/SearchForm'
+// import { SearchForm } from '../components/SearchForm'
 import ListaLibros from '../components/ListaLibros'
 import DetalleLibro from '../components/DetalleLibro'
 import Menu from '../components/Menu'
@@ -16,6 +16,10 @@ class MenuPrincipal extends Component {
         results1: [],
         results2: [],
         results3: [],
+        favoritos: [],
+        search: false,
+        inputMovie: '',
+        busquedas: []
     }
 
 
@@ -32,7 +36,7 @@ class MenuPrincipal extends Component {
     // }
 
     componentDidMount() {
-        
+
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -70,7 +74,27 @@ class MenuPrincipal extends Component {
                 console.log(data[0])
             });
     }
+    _handleChange = (e) => {
+        this.setState({ inputMovie: e.target.value })
+    }
 
+    _handleSearch = (e) => {
+        e.preventDefault()
+        const { inputMovie } = this.state
+
+        const requestOptions4 = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(
+                { coleccion: "libro", termino: inputMovie })
+        };
+        fetch('http://localhost:8080/api/busqueda', requestOptions4)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ busquedas: data[0] })
+                this.setState({ search: true })
+            });
+    }
     render() {
         // console.log(cookies.get('correo'))
         // console.log(cookies.get('nombreUsuario'))
@@ -83,17 +107,62 @@ class MenuPrincipal extends Component {
         return (
             <div className="App">
                 <Menu />
-                {/* <Title>Buscar Libro</Title> */}
                 <div className="SearchForm-wrapper">
-                    <SearchForm />
+                    {/* <SearchForm _handleSearch={this._handleSearch} /> */}
+                    <form onSubmit={this._handleSearch}>
+                        <div className="field has-addons busqueda">
+                            <div className="control">
+                                <input
+                                    className="input"
+                                    type="text"
+                                    placeholder="Buscar libro"
+                                    onChange={this._handleChange}
+                                />
+                            </div>
+                            <div className="control">
+                                <button className="button is-info">
+                                    Search
+                        </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {
+                    (this.state.search) ?
+                        <ListaLibros
+                            libros={this.state.busquedas}
+                        />
+                        :
+                        <div>No hay Busquedas</div>
+
+                }
+
+                <div className='titleCategoria'>
+                    <div className='categoriaTitulo'>
+                        Matemática
+                    </div>
+                    <div className='raya'></div>
                 </div>
                 <ListaLibros
                     libros={this.state.results1}
                 />
 
+                <div className='titleCategoria'>
+                    <div className='categoriaTitulo'>
+                        Matemática
+                    </div>
+                    <div className='raya'></div>
+                </div>
                 <ListaLibros
                     libros={this.state.results2}
                 />
+
+                <div className='titleCategoria'>
+                    <div className='categoriaTitulo'>
+                        Matemática
+                    </div>
+                    <div className='raya'></div>
+                </div>
                 <ListaLibros
                     libros={this.state.results3}
                 />

@@ -19,14 +19,17 @@ class Login extends React.Component {
     handleChange = (e) => {
         this.setState((prevState) => {
             return {
-                [e.target.name]: e.target.value
+                [e.target.name]: e.target.value,
+                favoritos: [],
+                misLibros: []
             }
         })
     }
 
+
     iniciarSesion = (e) => {
         try {
-            
+
             axios.post('http://localhost:8080/api/auth/login', {
                 correo: this.state.correo,
                 password: this.state.password,
@@ -34,31 +37,52 @@ class Login extends React.Component {
             }).then((response) => {
                 return response.data
             }).then((response) => {
-                if(response.nombreUsuario){
+                if (response.nombreUsuario) {
                     console.log(response)
                     cookies.set('correo', response.correo, { path: '/' })
                     cookies.set('nombreUsuario', response.nombreUsuario, { path: '/' })
-                    cookies.set('rol', response.rol, { path: '/' })
-                    window.location.href='./MenuPrincipal'
-                }else{
+                    cookies.set('_id', response._id, { path: '/' })
+
+                    fetch(`http://localhost:8080/api/favoritos/${response._id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        cookies.set('favoritos', data.favorito, { path: '/' })
+                        console.log('---------------------------')
+                        console.log(cookies.get('favoritos'))
+                        this.setState({ favoritos: data })
+                    });
+
+                    fetch(`http://localhost:8080/api/mis-libros/${response._id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        cookies.set('mislibros', data.mislibros, { path: '/' })
+                        this.setState({ misLibros: data })
+                        console.log('-------------Mis Libros--------------')
+                        console.log(data)
+                    });
+
+                    // window.history.back()
+                } else {
                     alert('El usuario o contraseña son incorrectos')
                 }
             })
-            .catch((err) => console.log(err))
-            e.preventDefault();            
+                .catch((err) => console.log(err))
+            e.preventDefault();
         } catch (error) {
             alert('Error')
         }
 
     }
 
-    componentDidMount(){
-        if(cookies.get('nombreUsuario')){
-            window.location.href='./MenuPrincipal'
+    componentDidMount() {
+        if (cookies.get('nombreUsuario')) {
+            window.location.href = './MenuPrincipal'
         }
     }
 
-    render(){
+    render() {
         return (
             <div className='caja-login'>
                 <div className='logo'>

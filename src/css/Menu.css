@@ -9,3 +9,12 @@
 .boton{
     margin-left: 20px;
 }
+
+.listaItems{
+    list-style: none;
+    display: flex;
+}
+
+.firstClass{
+    margin-left: 30px;
+}

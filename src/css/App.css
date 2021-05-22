@@ -1,4 +1,9 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
 .App{
+    width: 100%;
     position: absolute;
     text-align: center;
     margin-top: 30px;
@@ -9,4 +14,24 @@
     display: flex;
     justify-content: center;
     z-index: 0;
+    width: 100%;
+}
+.busqueda{
+    width: 80%;
+}
+
+.titleCategoria{
+    margin-top: 3em;
+    text-align: left;
+}
+.titleCategoria .categoriaTitulo{
+    margin: 0 auto;
+    width: 80%;
+}
+
+.titleCategoria .raya{
+    margin: 0 auto;
+    margin-top: 5px;
+    border: 0.1px solid rgb(0, 98, 175);
+    width: 80%;
 }

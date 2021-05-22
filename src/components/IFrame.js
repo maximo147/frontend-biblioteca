@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Cookies from 'universal-cookie'
-const cookies = new Cookies();
+// import Cookies from 'universal-cookie'
+// const cookies = new Cookies();
 
 
 class IFrame extends Component {
@@ -12,12 +12,7 @@ class IFrame extends Component {
     render() {
         return (
             <div>
-                <iframe
-                    src={``}
-                    width={800}
-                    height={550}>
-
-                </iframe>
+                
             </div>
         )
     }

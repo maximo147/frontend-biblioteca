@@ -2,35 +2,35 @@ import React, { Component } from 'react'
 // const API_KEY = '4cc2d235'
 export class SearchForm extends Component {
     state = {
-        inputMovie: ''
+        inputMovie: '',
+        busquedas: []
     }
     _handleChange = (e) => {
         this.setState({ inputMovie: e.target.value })
     }
 
-    _handleSubmit = (e) => {
+
+    _handleSearch = (e) => {
         e.preventDefault()
         const { inputMovie } = this.state
-        // fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${inputMovie}`)
-        // fetch(`http://localhost:8080?title=${inputMovie}`)
-        // .then(data => data.json())
-        // .then(results => {
-        //     console.log(results)
-        // })
 
-        const requestOptions = {
+        const requestOptions3 = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: inputMovie })
+            body: JSON.stringify(
+                { coleccion: "libro", termino: inputMovie })
         };
-        fetch('http://localhost:8080/api/libros', requestOptions)
+        fetch('http://localhost:8080/api/busqueda', requestOptions3)
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => {
+                this.setState({ busquedas: data[0] })
+            });
     }
 
     render() {
+        const { _handleSearch } = this.props
         return (
-            <form onSubmit={this._handleSubmit}>
+            <form onSubmit={_handleSearch}>
                 <div className="field has-addons">
                     <div className="control">
                         <input
