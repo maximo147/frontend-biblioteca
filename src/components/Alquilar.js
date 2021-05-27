@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import Cards from 'react-credit-cards'
 import Menu from '../components/Menu'
 import {
-    Card, Button, CardImg, CardTitle, CardText, CardGroup,
+    Card, Button, CardImg, CardTitle, CardGroup,
     CardSubtitle, CardBody
 } from 'reactstrap';
 import '../css/Venta.css'
@@ -11,7 +11,7 @@ import 'react-credit-cards/es/styles-compiled.css'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
-class PaymentForms extends React.Component {
+class PaymentForms extends Component {
 
 
     state = {

@@ -1,6 +1,4 @@
-*{
-    box-sizing: border-box;
-}
+
 .LibrosList{
     display: flex;
     flex-wrap: wrap;
@@ -10,13 +8,51 @@
     text-align: center;
 }
 .LibrosList-Item{
-    
-    width: 150px;
-    min-height: 300px;
+    /* min-height: 300px; */
     margin-top: 30px;
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.tarjeta{
+    width: 180px;
+    height: 310px;
+    padding: 0.6em;
+    border-radius: 0.6em;
+    /* background-color: #000; */
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 0.1px 0.1px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta:hover{
+    border: 2px solid rgba(223, 210, 23, 0.5);
+    box-shadow: 3px 0.1px 0.1px rgba(223, 210, 23, 0.5);
+    transform: scale(1.03);
+    transition: 0.3s all ease;
+}
+
+.tarjeta-image{
+    width: 100%; 
+}
+
+
+.contenido-info{
+    box-sizing: border-box;
+    padding: 0.3em 0;
+    /* background-color: green; */
+}
+
+.titulo-libro{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.subtitulo-autor{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 12px;
+} 
+
 
 /* .LibrosList-Item .card:hover{
     box-shadow: 3px 3px, -1em 0 0.4em;
@@ -24,13 +60,26 @@
 
 @media screen and (max-width: 1000px){
     .LibrosList-Item{
-        width: 40%
+        width: 30%
     }
 
 }
+@media screen and (max-width: 900px){
+    .LibrosList-Item{
+        width: 40%
+    }
+    .tarjeta{
+        width: 100%;
+        height: auto; 
+    }
+}
+
 @media screen and (max-width: 600px){
     .LibrosList-Item{
-        width: 90%
+        width: 100%
     }
-
+    .tarjeta{
+        width: 100%;
+        height: auto; 
+    }
 }

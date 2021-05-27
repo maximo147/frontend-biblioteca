@@ -12,6 +12,10 @@ import 'react-credit-cards/es/styles-compiled.css'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
+const host = (window.location.hostname === 'localhost')
+    ? ('http://localhost:8080')
+    : ('https://biblioteca-virtual-node.herokuapp.com')
+
 class PaymentForms extends React.Component {
 
 
@@ -34,7 +38,7 @@ class PaymentForms extends React.Component {
                 body: JSON.stringify(
                     { coleccion: "libro", termino: libroActual })
             };
-            fetch('http://localhost:8080/api/busqueda', requestOptions)
+            fetch(`${host}/api/busqueda`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ libro: data[0] })
@@ -64,7 +68,7 @@ class PaymentForms extends React.Component {
 
     _actualizarMisLibrosOnCookies = () => {
         const id = cookies.get('_id')
-        fetch(`http://localhost:8080/api/mis-libros/${id}`)
+        fetch(`${host}/api/mis-libros/${id}`)
             .then(response => response.json())
             .then(data => {
                 cookies.set('mislibros', data.mislibros, { path: '/' })
@@ -73,7 +77,7 @@ class PaymentForms extends React.Component {
 
     processPayment = () => {
         try {
-            axios.post('http://localhost:8080/api/tarjeta', {
+            axios.post(`${host}/api/tarjeta`, {
                 nombre: this.state.name,
                 numero: this.state.number,
                 codigo: this.state.cvc,
@@ -90,7 +94,7 @@ class PaymentForms extends React.Component {
                         total: this.state.libro.precioVenta,
                         usuario: cookies.get('_id')
                     };
-                    axios.post('http://localhost:8080/api/ventas', header)
+                    axios.post(`${host}/api/ventas`, header)
                         .then(response => {
                             if (response.status === 200) {
                                 return response.data
@@ -101,7 +105,7 @@ class PaymentForms extends React.Component {
                                 venta: response.venta._id,
                                 libro: cookies.get('libroActual')
                             }
-                            axios.post('http://localhost:8080/api/detalle-ventas', post)
+                            axios.post(`${host}/api/detalle-ventas`, post)
                             .then(response => response.data)
                             .then(response => alert(response.message))
                             const post2 = {
@@ -109,7 +113,7 @@ class PaymentForms extends React.Component {
                                 libro: cookies.get('libroActual'),
                                 estadoLibro: 'COMPRADO'
                             }
-                            axios.post('http://localhost:8080/api/mis-libros', post2)
+                            axios.post(`${host}/api/mis-libros`, post2)
                             .then(response => response.data)
                             .then(response => alert(response.message))
 

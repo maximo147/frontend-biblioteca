@@ -11,7 +11,7 @@ export default class ListaFavoritos extends Component {
     render() {
         const { favoritos } = this.props;
         return(
-            <div className="favoritos-container">
+            <div>
                 {   
                     favoritos.map(libros => {
                         return (

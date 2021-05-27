@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import Cookies from 'universal-cookie'
+import './Favorito.css'
 const cookies = new Cookies();
+
 
 
 class BotonSinAquirir extends Component {
     _handleCompra = () => {
-        cookies.set('libroActual', this.props.id, { path: '/' } )
-        window.location.href= `/venta-libro?id=${this.props.id}`
+        cookies.set('libroActual', this.props.id, { path: '/' })
+        window.location.href = `/venta-libro?id=${this.props.id}`
     }
     _handleAlquiler = () => {
-        cookies.set('libroActual', this.props.id, { path: '/' } )
-        window.location.href= `/alquiler-libro?id=${this.props.id}`
+        cookies.set('libroActual', this.props.id, { path: '/' })
+        window.location.href = `/alquiler-libro?id=${this.props.id}`
     }
 
     render() {
         return (
-            <div>
-                <div class="buttons">
-                    <button class="button is-info" onClick={this._handleAlquiler}>Alquilar</button>
-                    <button class="button is-info" onClick={this._handleCompra}>comprar</button>
-                </div>
+            <div class="buttons">
+                <button className="boton" onClick={this._handleAlquiler}>Alquilar</button>
+                <button className="boton" onClick={this._handleCompra}>comprar</button>
             </div>
         )
     }
@@ -29,10 +29,8 @@ class BotonSinAquirir extends Component {
 class BotonAdquirido extends Component {
     render() {
         return (
-            <div>
-                <div class="buttons">
-                    <button class="button is-info">Leer</button>
-                </div>
+            <div className="buttons">
+                <button className="boton">Leer</button>
             </div>
         )
     }
@@ -53,11 +51,11 @@ export default class Favorito extends Component {
 
     componentDidMount() {
         const misLibros = cookies.get('mislibros')
-        const { _id  } = this.props
+        const { _id } = this.props
         misLibros.map(libro => {
-            if(libro.libro._id === _id){
+            if (libro.libro._id === _id) {
 
-                this.setState({flag: true})
+                this.setState({ flag: true })
             }
         })
     }
@@ -65,25 +63,26 @@ export default class Favorito extends Component {
 
     render() {
         const { _id, titulo, img, autor, anioPublicaion, descripcion } = this.props
-        
+
         return (
-            <div className="card mb-3">
-                <div className="row g-0">
-                    <div className="col-md-4">
+            <div className="container-favorito">
+                <div className="favorito-main">
+                    <div className="container-imagen">
                         <img src={img} alt="..." />
                     </div>
-                    <div className="col-md-8">
-                        <div className="card-body">
-                            <h5 className="card-title">{titulo}</h5>
-                            <p className="card-text">{autor}</p>
-                            <p className="card-text">{anioPublicaion}</p>
-                            <p className="card-text">{descripcion}</p>
-                        </div>
-                        {
-                            (this.state.flag) ? <BotonAdquirido /> : <BotonSinAquirir id={_id} />
-                        }
+                    <div className="container-body">
+                        <h5 className="subtitulo">{titulo}</h5>
+                        <p className="subtitulo">{autor}</p>
+                        <p className="subtitulo">{anioPublicaion}</p>
+                        <p className="subtitulo-descripcion">{descripcion}</p>
                     </div>
                 </div>
+                <div className="container-footer">
+                    {
+                        (this.state.flag) ? <BotonAdquirido /> : <BotonSinAquirir id={_id} />
+                    }
+                </div>
+
             </div>
         )
     }

@@ -5,6 +5,9 @@ import ListaFavoritos from './FavoritosComp/ListaFavoritos'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
+const host = (window.location.hostname === 'localhost')
+    ? ('http://localhost:8080')
+    : ('https://biblioteca-virtual-node.herokuapp.com')
 
 export default class Mibiblioteca extends Component {
     state = {
@@ -24,7 +27,7 @@ export default class Mibiblioteca extends Component {
                         body: JSON.stringify(
                             { coleccion: "libro", termino: libro.libro._id })
                     };
-                    fetch('http://localhost:8080/api/busqueda', requestOptions)
+                    fetch(`${host}/api/busqueda`, requestOptions)
                         .then(response => response.json())
                         .then(data => {
                             librosB.push(data[0])
@@ -44,7 +47,7 @@ export default class Mibiblioteca extends Component {
     }
 
     _handleRefresh = () => {
-        this.setState({estado: true})
+        this.setState({ estado: true })
     }
 
     render() {
@@ -54,13 +57,15 @@ export default class Mibiblioteca extends Component {
                 <div className="container-miBiblioteca">
                     <div className="biblioteca">
                         <div className="raya"></div>
-                        <button className="button is-link" onClick={this._handleBack}>Atras</button>
+                        <i class="fas fa-eye ojo-icono" onClick={this._handleRefresh}></i>
                         <div className="raya"></div>
-                        <input type="submit" value="Mi Biblioteca v" onClick={this._handleRefresh} />
                     </div>
-                    <ListaFavoritos
+                    <div className="lista">
+                        <ListaFavoritos
                             favoritos={this.state.misLibros}
-                    />
+                        />
+                    </div>
+
                 </div>
             </div>
         )

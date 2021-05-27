@@ -1,0 +1,91 @@
+.container-favorito{
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 0.1px 0.1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.7em;
+    padding: 0.9em;
+}
+
+.container-favorito .favorito-main{
+    width:100%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.container-favorito .favorito-main .container-imagen{
+    width: 30%;
+    /* background-color: green; */
+    padding: 0.7em;
+}
+.container-favorito .favorito-main .container-imagen img{
+    height: 300px;
+}
+
+.container-favorito .favorito-main .container-body{
+    width: 70%;
+    padding: 0.9em;
+    /* background-color: yellow;     */
+}
+.container-favorito .favorito-main .container-body .subtitulo{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.container-favorito .favorito-main .container-body .subtitulo-descripcion{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1em;
+    margin-top: 0.9em;
+}
+
+
+.container-favorito .container-footer {
+    width: 100%;
+    /* background-color: blue; */
+    padding: 0.9em;
+    /* box-sizing: border-box; */
+    
+}
+
+.container-favorito .container-footer .buttons{
+    justify-content: flex-end;
+}
+
+.container-favorito .container-footer .buttons .boton{
+    border: none;
+    padding: 0.3em 3.6em;
+    background-color: rgb(37, 87, 174);
+    color: rgb(255, 255, 255);
+    border-radius: 0.2em;
+    
+}
+.container-favorito .container-footer .buttons .boton:hover{
+    border: 5px solid  rgba(0, 0, 0, 0.2);
+    
+} 
+
+@media screen and (max-width:900px){
+    .container-favorito .favorito-main{
+        width: 100%;
+        display: inline-block;
+    }
+    .container-favorito .favorito-main .container-imagen{
+        width: 100%;
+        text-align: center;
+    }
+    .container-favorito .favorito-main .container-imagen img{
+        height: auto;
+    }
+    .container-favorito .favorito-main .container-body{
+        width: 100%;
+        padding: 0.9em;
+    }
+    .container-favorito .container-footer{
+        text-align: center;
+    }
+    .container-favorito .container-footer .buttons{
+        justify-content: center;
+
+    }
+}

@@ -6,6 +6,17 @@
 .container-miBiblioteca .biblioteca{
     margin: 0 auto;
     width: 80%;
+    text-align: center;
+}
+
+.container-miBiblioteca .biblioteca .ojo-icono{
+    font-size: 3em;
+}
+
+.container-miBiblioteca .biblioteca .ojo-icono:active{
+    color: rgba(1, 75, 150, 0.898);
+    transform: scale(1.22);
+    transition: 0.1s all ease;    
 }
 
 .container-miBiblioteca .biblioteca .raya {
@@ -14,8 +25,7 @@
     margin: 0.5em 0;
 }
 
-.favoritos-container{
-    width: 80%;
+.container-miBiblioteca .lista{
+    width: 60%;
     margin: 0 auto;
 }
-

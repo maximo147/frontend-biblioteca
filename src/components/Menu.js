@@ -50,9 +50,9 @@ class BotonesOut extends React.Component {
                         </li>
                         
                         <li className="firstClass">
-                            <a>Hola {
+                            <p>Hola {
                                 cookies.get('nombreUsuario')
-                            }</a>
+                            }</p>
                         </li>
                         <li className="firstClass">
                             <button className="btn btn-outline-success boton" type="submit" onClick={this._handleSalir}>Salir</button>  
@@ -82,7 +82,7 @@ export default class Menu extends Component {
             <div className='menu'>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
-                        <img src={logo} />
+                        <img src={logo} alt="#" />
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>

@@ -5,7 +5,7 @@ export default class NotFound extends Component {
     render(){
         return (
             <div>
-                <img src={img404} />
+                <img src={img404} alt="" />
             </div>
         )
     }

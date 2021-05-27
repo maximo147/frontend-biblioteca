@@ -1,0 +1,80 @@
+
+.container-formulario{
+    background-color: rgba(66, 59, 59, 0.1);
+    border: 3px solid rgba(49, 44, 44, 0.4);
+    box-shadow: 5px 6.1px 2.1px rgba(0, 0, 0, 0.3);
+    border-radius: 0.8em;
+    margin: 90px auto;
+    width: 50%;
+    padding: 1em 0;
+    text-align: center;
+    /* background-color: red; */
+}
+.container-formulario .icono-login{
+    font-size: 3em;
+    margin-bottom: 0.3em;    
+}
+
+
+.formulario-registro{
+    width: 60%;
+    margin: 0 auto;
+    /* background-color: yellow; */
+}
+
+.formulario-registro .field .control {
+    width: 100%;
+}
+
+.formulario-registro .field .control .iconos{
+    color: rgba(60, 55, 55, 0.5);
+    font-size: 15px;
+    position: absolute;
+    left: 20px;
+    top: 3px;
+    padding-top: 10px;
+    z-index: 1;   
+}
+
+
+.formulario-registro .field .control .correo{
+    padding-left: 40px;
+}
+
+
+.container-formulario .formulario-registro .boton{
+    /* background-color: red; */
+    padding-top: 0.3em;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.container-formulario .formulario-registro .boton .icono-back{
+    font-size: 1.9em;
+    color: rgba(0, 0, 0, 0.651);
+}
+
+.container-formulario .formulario-registro .boton .icono-open2{
+    font-size: 2.1em;
+    color: rgba(0, 0, 0, 0.651);
+}
+
+.container-formulario .formulario-registro .boton .icono-back:hover{
+    transform: scale(1.2);
+    transition: 0.9s all ease;
+}
+
+.container-formulario .formulario-registro .boton .icono-open2:hover{
+    transform: scale(1.2);
+    transition: 0.9s all ease;
+}
+
+
+
+@media screen and (max-width: 800px){
+    .container-formulario{
+        width: 90%;
+    }
+}
+

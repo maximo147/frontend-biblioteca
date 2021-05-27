@@ -6,22 +6,27 @@ import '../css/DetalleLibro.css'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
+const host = (window.location.hostname === 'localhost')
+    ? ('http://localhost:8080')
+    : ('https://biblioteca-virtual-node.herokuapp.com')
+
+
 class BotonSinAquirir extends Component {
     _handleCompra = () => {
-        cookies.set('libroActual', this.props.id, { path: '/' } )
-        window.location.href= `/venta-libro?id=${this.props.id}`
+        cookies.set('libroActual', this.props.id, { path: '/' })
+        window.location.href = `/venta-libro?id=${this.props.id}`
     }
     _handleAlquiler = () => {
-        cookies.set('libroActual', this.props.id, { path: '/' } )
-        window.location.href= `/alquiler-libro?id=${this.props.id}`
+        cookies.set('libroActual', this.props.id, { path: '/' })
+        window.location.href = `/alquiler-libro?id=${this.props.id}`
     }
 
     render() {
         return (
             <div>
-                <div class="buttons">
-                    <button class="button is-info" onClick={this._handleAlquiler}>Alquilar</button>
-                    <button class="button is-info" onClick={this._handleCompra}>comprar</button>
+                <div className="buttons">
+                    <button className="button is-info" onClick={this._handleAlquiler}>Alquilar</button>
+                    <button className="button is-info" onClick={this._handleCompra}>comprar</button>
                 </div>
             </div>
         )
@@ -32,8 +37,8 @@ class BotonAdquirido extends Component {
     render() {
         return (
             <div>
-                <div class="buttons">
-                    <button class="button is-info">Leer</button>
+                <div className="buttons">
+                    <button className="button is-info">Leer</button>
                 </div>
             </div>
         )
@@ -49,34 +54,38 @@ export default class DetalleLibro extends Component {
     state = {
         libros: '',
         heart: false,
-        flag: false
+        flag: false,
+        host: ''
     }
 
-    _fetchLibro = ({ id }) => {
-        fetch(`http://localhost:8080/api/libros/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                this.setState({ libros: data })
-            });
-    }
+    // _fetchLibro = ({ id }) => {
+    //     fetch(`${this.state.host}/libros/${id}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             this.setState({ libros: data })
+    //         });
+    // }
+
+
     _handleHeart = ({ id }) => {
-        // alert('Hola')
         if (cookies.get('favoritos')) {
             const fav = cookies.get('favoritos')
-
-            fav.map((v) => {
-                if (v.libro._id === id) {
-                    if (v.estado) {
-                        this.setState({ heart: true })
-                    } else {
-                        this.setState({ heart: false })
+            if (fav.length > 1) {
+                fav.map((v) => {
+                    if (v.libro._id === id) {
+                        if (v.estado) {
+                            this.setState({ heart: true })
+                        } else {
+                            this.setState({ heart: false })
+                        }
                     }
-                }
-            })
+                })
+            }
+
         }
     }
-    
+
     _volverAtras = (e) => {
         window.history.back()
     }
@@ -116,7 +125,7 @@ export default class DetalleLibro extends Component {
                                 libro: this.state.libros._id
                             })
                         };
-                        fetch('http://localhost:8080/api/favoritos', requestOptions)
+                        fetch(`${host}/api/favoritos`, requestOptions)
                             .then(response => response.json())
                             .then(data => {
                                 console.dir(data.message[0])
@@ -134,9 +143,9 @@ export default class DetalleLibro extends Component {
                             libro: this.state.libros._id
                         })
                     };
-                    fetch('http://localhost:8080/api/favoritos', requestOptions)
+                    fetch(`${host}/api/favoritos`, requestOptions)
                         .then(response => response.json())
-                        .then(data => alert(data.message));
+                        .then(data => { });
                     this._actualizarFavoritosOnCookies()
                 }
 
@@ -151,7 +160,7 @@ export default class DetalleLibro extends Component {
                         libro: this.state.libros._id
                     })
                 };
-                fetch('http://localhost:8080/api/favoritos', requestOptions)
+                fetch(`${host}/api/favoritos`, requestOptions)
                     .then(response => response.json())
                     .then(data => alert(data.message));
                 this._actualizarFavoritosOnCookies()
@@ -165,7 +174,7 @@ export default class DetalleLibro extends Component {
 
     _actualizarFavoritosOnCookies = () => {
         const id = cookies.get('_id')
-        fetch(`http://localhost:8080/api/favoritos/${id}`)
+        fetch(`${host}/api/favoritos/${id}`)
             .then(response => response.json())
             .then(data => {
                 cookies.set('favoritos', data.favorito, { path: '/' })
@@ -175,22 +184,40 @@ export default class DetalleLibro extends Component {
 
     componentDidMount() {
         const { id } = this.props
-        this._fetchLibro({ id })
+        fetch(`${host}/api/libros/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                this.setState({ libros: data })
+            });
+        // this._fetchLibro({ id })
         this._handleHeart({ id })
-        if(cookies.get('nombreUsuario')){
+
+
+        if (cookies.get('nombreUsuario')) {
             const misLibros = cookies.get('mislibros')
-            misLibros.map(libro => {
-                if(libro.libro._id === id){
-                    this.setState({flag: true})
-                }
-            })            
+            if (misLibros.length > 1) {
+                misLibros.map(libro => {
+                    if (libro.libro._id === id) {
+                        this.setState({ flag: true })
+                    }
+                })
+            }
+
         }
-        cookies.set('libroActual', this.props.id, { path: '/' } )
+        cookies.set('libroActual', this.props.id, { path: '/' })
 
     }
 
+    _handleSonido = () => {
+        var sonido = new Audio();
+        sonido.src = '../assets/sonido.mp3';
+        sonido.play()
+    }
+
     render() {
-        const { _id, img, titulo, numeroPaginas, anioPublicaion, idioma, descripcion, autor } = this.state.libros
+        const { _id, img, titulo, numeroPaginas, anioPublicaion, idioma, descripcion } = this.state.libros
+        // const { nombre } = this.state.libros.autor
         // const { nombre } = this.state.libros.autor
         const colorHeart = this.state.heart ? 'conColor' : 'sinColor'
         return (
@@ -198,35 +225,34 @@ export default class DetalleLibro extends Component {
                 < Menu />
                 <div className="detalle-libro">
                     <div className="contenedor">
-                        <hr />
                         <div className="header-detalle">
                             <div className="atras">
-                                <button className="button is-link" onClick={this._volverAtras}>Atras</button>
+                                <i className="fas fa-backspace icono-back" onClick={this._volverAtras}></i>
                             </div>
                             <div className="favorito">
-                                <span className="fa-stack fa-sm" onClick={this._handleOutHeart}>
+                                <span className="fa-stack fa-sm" onClick={this._handleOutHeart} onMouseDown={this._handleSonido}>
                                     <i className={`icono far fa-heart ${colorHeart}`}></i>
                                 </span>
                             </div>
                         </div>
-                        <hr />
+                        <div className="raya"></div>
                         <div className="body-detalle">
                             <div className="img-detalle">
-                                <img src={img} />
+                                <img src={img} alt="#" />
                             </div>
                             <div className="descripcion-detalle">
-                                <h2>
+                                <h2 className="detalle-titulo">
                                     {titulo}
                                 </h2>
                                 <h3>
-                                    {console.log(autor)}
+                                    {/* { nombre } */}
                                 </h3>
-                                <br />
-                                <div>
+                                <div className="detalle-titulo">
                                     Detalles de Libro
-                                    <hr />
+                                    <div className="raya"></div>
                                 </div>
-                                <div>
+                                <div className="detalle-subtitulo">
+
                                     <p>
                                         {`Año:                ${anioPublicaion}`}
                                     </p>
@@ -237,13 +263,13 @@ export default class DetalleLibro extends Component {
                                         {`Idioma:                ${idioma}`}
                                     </p>
                                 </div>
-                                <div>
+                                <div className="detalle-titulo">
                                     <br />
                                     Descripción
-                                    <hr />
+                                    <div className="raya"></div>
                                 </div>
                                 <div>
-                                    <p>
+                                    <p className="detalle-subtitulo">
                                         {`${descripcion}`}
                                     </p>
                                 </div>
@@ -258,9 +284,9 @@ export default class DetalleLibro extends Component {
                                 }
                             </div>
                         </div>
-                        <hr />
+                        <div className="raya"></div>
                     </div>
-                </div>                
+                </div>
             </div>
         )
     }

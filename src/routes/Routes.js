@@ -11,6 +11,7 @@ import Mibiblioteca from '../components/Mibiblioteca'
 import Venta from '../components/Venta'
 import Alquiler from '../components/Alquilar'
 import NotFound from '../pages/NotFound'
+import CrudUsuario from '../componentsAdmin/CrudUsuario';
 
 
 function Routes() {
@@ -23,6 +24,9 @@ function Routes() {
                 </Route>
                 <Route path='/login'>
                     <Login />
+                </Route>
+                <Route exact path='/admin/user'>
+                    <CrudUsuario />
                 </Route>
                 <Route path='/pagar'>
                     <Pagar />
@@ -55,6 +59,7 @@ function Routes() {
                 <Route exact path='/:id'>
                     <DetalleLibro />
                 </Route>
+
 
             </Switch>
         </BrowserRouter>

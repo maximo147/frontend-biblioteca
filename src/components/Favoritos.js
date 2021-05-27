@@ -7,6 +7,10 @@ import Cookies from 'universal-cookie'
 const cookies = new Cookies();
 
 
+const host = (window.location.hostname === 'localhost')
+    ? ('http://localhost:8080')
+    : ('https://biblioteca-virtual-node.herokuapp.com')
+
 export default class Favoritos extends Component {
     state = {
         librosFavoritos: [],
@@ -29,7 +33,7 @@ export default class Favoritos extends Component {
                         body: JSON.stringify(
                             { coleccion: "libro", termino: libro.libro._id })
                     };
-                    fetch('http://localhost:8080/api/busqueda', requestOptions)
+                    fetch(`${host}/api/busqueda`, requestOptions)
                         .then(response => response.json())
                         .then(data => {
                             librosF.push(data[0])
@@ -37,15 +41,15 @@ export default class Favoritos extends Component {
                 }
             })
             this.setState({ librosFavoritos: librosF })
-            
+
         } else {
             window.location.href = "/login"
         }
     }
 
-    _handleBack = () => {
-        window.history.back()
-    }
+    // _handleBack = () => {
+    //     window.history.back()
+    // }
 
 
     render() {
@@ -57,13 +61,14 @@ export default class Favoritos extends Component {
                 <div className="container-favoritos">
                     <div className="favoritos">
                         <div className="raya"></div>
-                        <button className="button is-link" onClick={this._handleBack}>Atras</button>
+                        <i class="fas fa-eye ojo-icono" onClick={this._handleRefresh}></i>
                         <div className="raya"></div>
-                        
-                        <input type="submit" value="Mis Favoritos v" onClick={this._handleRefresh} />
-                        <ListaFavoritos
-                            favoritos={this.state.librosFavoritos}
-                        />
+                        <div className="lista2">
+                            <ListaFavoritos
+                                favoritos={this.state.librosFavoritos}
+                            />
+                        </div>
+
                     </div>
                 </div>
             </div>

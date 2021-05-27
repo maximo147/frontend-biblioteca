@@ -2,10 +2,13 @@ import React from 'react'
 import axios from 'axios'
 import 'bulma/css/bulma.min.css'
 import '../css/Login.css'
-import logo from '../assets/Innova-logo-retina.png'
 
 import Cookies from 'universal-cookie'
 const cookies = new Cookies();
+
+const host = (window.location.hostname === 'localhost')
+    ? ('http://localhost:8080')
+    : ('https://biblioteca-virtual-node.herokuapp.com')
 
 
 class Login extends React.Component {
@@ -16,7 +19,7 @@ class Login extends React.Component {
         rol: 'USUARIO_ROL'
     }
 
-    handleChange = (e) => {
+    _handleChange = (e) => {
         this.setState((prevState) => {
             return {
                 [e.target.name]: e.target.value,
@@ -27,53 +30,39 @@ class Login extends React.Component {
     }
 
 
-    iniciarSesion = (e) => {
-        try {
+    iniciarSesion = async (e) => {
+        if (this.state.correo === '' || this.state.password === '') {
+            alert('Faltan Datos')
+        } else {
+            try {
+                const response = await axios.post(`${host}/api/auth/login`, {
+                    correo: this.state.correo,
+                    password: this.state.password,
+                })
+                //
+                if (response.status === 200) {
+                    cookies.set('correo', response.data.correo, { path: '/' })
+                    cookies.set('nombreUsuario', response.data.nombreUsuario, { path: '/' })
+                    cookies.set('_id', response.data._id, { path: '/' })
 
-            axios.post('http://localhost:8080/api/auth/login', {
-                correo: this.state.correo,
-                password: this.state.password,
-                rol: this.state.rol
-            }).then((response) => {
-                return response.data
-            }).then((response) => {
-                if (response.nombreUsuario) {
-                    console.log(response)
-                    cookies.set('correo', response.correo, { path: '/' })
-                    cookies.set('nombreUsuario', response.nombreUsuario, { path: '/' })
-                    cookies.set('_id', response._id, { path: '/' })
-
-                    fetch(`http://localhost:8080/api/favoritos/${response._id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        cookies.set('favoritos', data.favorito, { path: '/' })
-                        console.log('---------------------------')
-                        console.log(cookies.get('favoritos'))
-                        this.setState({ favoritos: data })
-                    });
-
-                    fetch(`http://localhost:8080/api/mis-libros/${response._id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-                        cookies.set('mislibros', data.mislibros, { path: '/' })
-                        this.setState({ misLibros: data })
-                        console.log('-------------Mis Libros--------------')
-                        console.log(data)
-                    });
-
-                    // window.history.back()
+                    const favoritos = await axios.get(`${host}/api/favoritos/${response.data._id}`)
+                    if (favoritos.status === 200) {
+                        cookies.set('favoritos', favoritos.data.favorito, { path: '/' })
+                        this.setState({ favoritos: favoritos.data })
+                    }
+                    const misLibros = await axios.get((`${host}/api/mis-libros/${response.data._id}`))
+                    if (misLibros.status === 200) {
+                        cookies.set('mislibros', misLibros.data.mislibros, { path: '/' })
+                        this.setState({ misLibros: misLibros.data })
+                        window.history.back()
+                    }
                 } else {
-                    alert('El usuario o contraseña son incorrectos')
+                    alert('sff')
                 }
-            })
-                .catch((err) => console.log(err))
-            e.preventDefault();
-        } catch (error) {
-            alert('Error')
+            } catch (error) {
+                alert('Datos incorrectos')
+            }
         }
-
     }
 
     componentDidMount() {
@@ -82,42 +71,53 @@ class Login extends React.Component {
         }
     }
 
+    _handleBack = () => {
+        window.history.back();
+    }
+
     render() {
         return (
-            <div className='caja-login'>
-                <div className='logo'>
-                    <img src={logo} alt='' />
+            <div className="container-login">
+                <div className='caja-login'>
+                    <i class="fas fa-users icono-login"></i>
+                    <form className="caja">
+                        <div className="field cajas-texto">
+                            <div className="control">
+                                <i class="fas fa-user icono-user"></i>
+                                <input
+                                    className="input is-rounded correo"
+                                    type="email"
+                                    name="correo"
+                                    placeholder="Correo"
+                                    onChange={this._handleChange}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="field cajas-texto">
+                            <div className="control">
+                                <i class="fas fa-key icono-key"></i>
+                                <input
+                                    className="input is-rounded password"
+                                    type="password"
+                                    name="password"
+                                    placeholder="*********"
+                                    onChange={this._handleChange}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="boton">
+                            {/* <button className="button is-primary" onClick={this.iniciarSesion}>Ingresar</button> */}
+                            <span onClick={this._handleBack}>
+                                <i class="fas fa-backspace icono-back"></i>
+                            </span>
+                            <span onClick={this.iniciarSesion}>
+                                <i class="fas fa-sign-in-alt icono-open"></i>
+                            </span>
+                        </div>
+                    </form>
                 </div>
-
-                <form className="box">
-                    <div className="field">
-                        <label className="label">Correo institucional</label>
-                        <div className="control">
-                            <input className="input" type="email" placeholder="example@innova.pe" name='correo' onChange={this.handleChange} />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="label">Contraseña</label>
-                        <div className="control">
-                            <input className="input" type="password" placeholder="********" name='password' onChange={this.handleChange} />
-                        </div>
-                    </div>
-                    <div className="caja-combobox">
-                        <div className="control">
-                            {/* <div className="select">
-                                <select onChange={this.handleChange} name='rol'>
-                                    <option value="ALUMNO_ROL">Estudiante</option>
-                                    <option value="PROFESOR_ROL">Profesor</option>
-                                </select>
-                            </div> */}
-                        </div>
-                    </div>
-
-                    <div className="boton">
-                        <button className="button is-primary" onClick={this.iniciarSesion}>Ingresar</button>
-                    </div>
-                </form>
-
             </div>
 
         )

@@ -10,6 +10,10 @@ import '../css/App.css'
 // import Cookies from 'universal-cookie'
 // const cookies = new Cookies();
 
+const host = (window.location.hostname === 'localhost')
+? ('http://localhost:8080')
+: ('https://biblioteca-virtual-node.herokuapp.com')
+
 
 class MenuPrincipal extends Component {
     state = {
@@ -19,7 +23,7 @@ class MenuPrincipal extends Component {
         favoritos: [],
         search: false,
         inputMovie: '',
-        busquedas: []
+        busquedas: [],
     }
 
 
@@ -36,14 +40,13 @@ class MenuPrincipal extends Component {
     // }
 
     componentDidMount() {
-
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
-                { coleccion: "libro", termino: "mate" })
+                { coleccion: "libro", termino: "mysql" })
         };
-        fetch('http://localhost:8080/api/busqueda', requestOptions)
+        fetch(`${host}/api/busqueda`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 this.setState({ results1: data[0] })
@@ -53,9 +56,9 @@ class MenuPrincipal extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
-                { coleccion: "libro", termino: "alge" })
+                { coleccion: "libro", termino: "php" })
         };
-        fetch('http://localhost:8080/api/busqueda', requestOptions2)
+        fetch(`${host}/api/busqueda`, requestOptions2)
             .then(response => response.json())
             .then(data => {
                 this.setState({ results2: data[0] })
@@ -65,9 +68,9 @@ class MenuPrincipal extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
-                { coleccion: "libro", termino: "prog" })
+                { coleccion: "libro", termino: "bases" })
         };
-        fetch('http://localhost:8080/api/busqueda', requestOptions3)
+        fetch(`${host}/api/busqueda`, requestOptions3)
             .then(response => response.json())
             .then(data => {
                 this.setState({ results3: data[0] })
@@ -79,22 +82,42 @@ class MenuPrincipal extends Component {
     }
 
     _handleSearch = (e) => {
-        e.preventDefault()
-        const { inputMovie } = this.state
+        try {
+            if (this.state.inputMovie === '') {
+                alert('Campos vacios')
+            } else {
+                if (this.state.inputMovie.includes('++')) {
+                    alert('Cadena incorreta')
+                } else if (this.state.inputMovie.length <= 2) {
+                    alert('Cadena insuficiente')
+                } else {
+                    e.preventDefault()
+                    const { inputMovie } = this.state
 
-        const requestOptions4 = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(
-                { coleccion: "libro", termino: inputMovie })
-        };
-        fetch('http://localhost:8080/api/busqueda', requestOptions4)
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ busquedas: data[0] })
-                this.setState({ search: true })
-            });
+                    const requestOptions4 = {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(
+                            { coleccion: "libro", termino: inputMovie })
+                    };
+                    fetch(`${host}/api/busqueda`, requestOptions4)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({ busquedas: data[0] })
+                            this.setState({ search: true })
+                        });
+                }
+            }
+        } catch {
+
+        } finally {
+            this.setState({ inputMovie: '' })
+            document.getElementById('busqueda').value = ''
+        }
+
     }
+
+
     render() {
         // console.log(cookies.get('correo'))
         // console.log(cookies.get('nombreUsuario'))
@@ -107,25 +130,24 @@ class MenuPrincipal extends Component {
         return (
             <div className="App">
                 <Menu />
-                <div className="SearchForm-wrapper">
+
+                <div className="SearchForm-wrapper animate__bounceIn">
                     {/* <SearchForm _handleSearch={this._handleSearch} /> */}
                     <form onSubmit={this._handleSearch}>
-                        <div className="field has-addons busqueda">
+                        <div className="busqueda">
                             <div className="control">
+                                <i className="fas fa-search icono-search" onClick={this._handleSearch} ></i>
                                 <input
-                                    className="input"
+                                    className="input is-rounded search"
                                     type="text"
-                                    placeholder="Buscar libro"
+                                    id="busqueda"
+                                    placeholder="Buscar libro🌝"
                                     onChange={this._handleChange}
                                 />
                             </div>
-                            <div className="control">
-                                <button className="button is-info">
-                                    Search
-                        </button>
-                            </div>
                         </div>
                     </form>
+                    {/* <h1 class="animate__animated animate__bounce">An animated element</h1> */}
                 </div>
                 {
                     (this.state.search) ?
@@ -137,11 +159,10 @@ class MenuPrincipal extends Component {
 
                 }
 
-                <div className='titleCategoria'>
+                <div className='titleCategoria animate__fadeInUp'>
                     <div className='categoriaTitulo'>
-                        Matemática
+                        Lo más visto
                     </div>
-                    <div className='raya'></div>
                 </div>
                 <ListaLibros
                     libros={this.state.results1}
@@ -151,7 +172,6 @@ class MenuPrincipal extends Component {
                     <div className='categoriaTitulo'>
                         Matemática
                     </div>
-                    <div className='raya'></div>
                 </div>
                 <ListaLibros
                     libros={this.state.results2}
@@ -161,7 +181,6 @@ class MenuPrincipal extends Component {
                     <div className='categoriaTitulo'>
                         Matemática
                     </div>
-                    <div className='raya'></div>
                 </div>
                 <ListaLibros
                     libros={this.state.results3}

@@ -6,6 +6,17 @@
 .container-favoritos .favoritos{
     margin: 0 auto;
     width: 80%;
+    text-align: center;
+}
+
+.container-favoritos .favoritos .ojo-icono{
+    font-size: 3em;
+}
+
+.container-favoritos .favoritos .ojo-icono:active{
+    color: rgba(1, 75, 150, 0.898);
+    transform: scale(1.22);
+    transition: 0.1s all ease;    
 }
 
 .container-favoritos .favoritos .raya {
@@ -14,10 +25,7 @@
     margin: 0.5em 0;
 }
 
-.favoritos-container{
+.container-favoritos .lista2{
     width: 80%;
     margin: 0 auto;
 }
-
-
-
